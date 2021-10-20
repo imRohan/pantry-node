@@ -1,9 +1,9 @@
 {
-  "name": "pantry-js",
+  "name": "pantry-node",
   "version": "0.1.0",
   "description": "A convenient wrapper to access the Pantry storage API",
   "main": "dist/pantry.js",
-  "repository": "https://github.com/imRohan/pantry-js.git",
+  "repository": "https://github.com/imRohan/pantry-node.git",
   "author": "Rohan Likhite <rlikhite@gmail.com> (https://rohanlikhite.com)",
   "license": "MIT",
   "private": false,
