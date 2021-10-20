@@ -11,28 +11,30 @@
 
   class Request {
     static async get(route) {
-      const response = await Request.perform(route, 'GET', 'json');
-      return response
+      return Request.perform(route, 'GET', 'json')
     }
 
     static async post(route, payload) {
-      const response = await Request.perform(route, 'POST', 'string', payload);
-      return response
+      return Request.perform(route, 'POST', 'string', payload)
     }
 
     static async put(route, payload) {
-      const response = await Request.perform(route, 'PUT', 'json', payload);
-      return response
+      return Request.perform(route, 'PUT', 'json', payload)
     }
 
     static async delete(route) {
-      const response = await Request.perform(route, 'DELETE', 'string');
-      return response
+      return Request.perform(route, 'DELETE', 'string')
     }
 
     static async perform(route, method, responseFormat, payload = {}) {
-      const action = bent(method, responseFormat);
-      return action(Request.path(route), payload)
+      try {
+        const action = bent(method, responseFormat);
+        const response = await action(Request.path(route), payload);
+        return response
+      } catch (error) {
+        const errorMessage = await error.text();
+        throw errorMessage
+      }
     }
 
     static path(route) {
