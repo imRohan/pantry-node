@@ -10,24 +10,25 @@
   const API_VERSION = '1';
 
   class Request {
-    static async get(route) {
-      return Request.perform(route, 'GET', 'json')
+    static async get(route, parseJSON = true) {
+      return Request.perform(route, 'GET', parseJSON)
     }
 
     static async post(route, payload) {
-      return Request.perform(route, 'POST', 'string', payload)
+      return Request.perform(route, 'POST', false, payload)
     }
 
-    static async put(route, payload) {
-      return Request.perform(route, 'PUT', 'json', payload)
+    static async put(route, payload, parseJSON = true) {
+      return Request.perform(route, 'PUT', parseJSON, payload)
     }
 
     static async delete(route) {
-      return Request.perform(route, 'DELETE', 'string')
+      return Request.perform(route, 'DELETE', false)
     }
 
-    static async perform(route, method, responseFormat, payload = {}) {
+    static async perform(route, method, parseJSON, payload = {}) {
       try {
+        const responseFormat = parseJSON ? 'json' : 'string';
         const action = bent(method, responseFormat);
         const response = await action(Request.path(route), payload);
         return response
@@ -45,18 +46,22 @@
   class Basket {
     constructor(pantryID) {
       this.pantryID = pantryID;
+      this.defaultOptions = {
+        parseJSON: true,
+      };
     }
 
-    update(basketName, payload) {
-      return Request.put(`${this.pantryID}/basket/${basketName}`, payload)
+    update(basketName, payload, { parseJSON } = this.defaultOptions) {
+      return Request.put(`${this.pantryID}/basket/${basketName}`, payload,
+        parseJSON)
     }
 
     create(basketName, payload = {}) {
       return Request.post(`${this.pantryID}/basket/${basketName}`, payload)
     }
 
-    get(basketName) {
-      return Request.get(`${this.pantryID}/basket/${basketName}`)
+    get(basketName, { parseJSON } = this.defaultOptions) {
+      return Request.get(`${this.pantryID}/basket/${basketName}`, parseJSON)
     }
 
     delete(basketName) {

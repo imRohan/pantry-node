@@ -43,9 +43,10 @@ const pantry = require('pantry-node')
 
 const pantryID = "xxxx-xxxx-xxxx-xxxx-xxxx-xxxx"
 const pantryClient = new pantry(pantryID)
+const options = { parseJSON: true } // optional
 
 pantryClient.basket
-  .get('ToDoList')
+  .get('ToDoList', options)
   .then((contents) => console.log(contents))
 ```
 
@@ -55,6 +56,7 @@ const pantry = require('pantry-node')
 
 const pantryID = "xxxx-xxxx-xxxx-xxxx-xxxx-xxxx"
 const pantryClient = new pantry(pantryID)
+const options = { parseJSON: true } // optional
 
 // The new payload that you want your basket to have
 const payload = {
@@ -62,7 +64,7 @@ const payload = {
 }
 
 pantryClient.basket
-  .update('ToDoList', payload)
+  .update('ToDoList', payload, options)
   .then((response) => console.log(response))
 ```
 
