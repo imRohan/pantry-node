@@ -3,18 +3,22 @@ import Request from './request'
 export default class Basket {
   constructor(pantryID) {
     this.pantryID = pantryID
+    this.defaultOptions = {
+      parseJSON: true,
+    }
   }
 
-  update(basketName, payload) {
-    return Request.put(`${this.pantryID}/basket/${basketName}`, payload)
+  update(basketName, payload, { parseJSON } = this.defaultOptions) {
+    return Request.put(`${this.pantryID}/basket/${basketName}`, payload,
+      parseJSON)
   }
 
   create(basketName, payload = {}) {
     return Request.post(`${this.pantryID}/basket/${basketName}`, payload)
   }
 
-  get(basketName) {
-    return Request.get(`${this.pantryID}/basket/${basketName}`)
+  get(basketName, { parseJSON } = this.defaultOptions) {
+    return Request.get(`${this.pantryID}/basket/${basketName}`, parseJSON)
   }
 
   delete(basketName) {
