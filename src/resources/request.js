@@ -27,8 +27,9 @@ export default class Request {
       const response = await action(Request.path(route), payload)
       return response
     } catch (error) {
-      const errorMessage = await error.text()
-      throw errorMessage
+      const fallback = `An unknown error occured: ${error}`
+      const message = typeof error.text === 'function' ? await error.text() : fallback
+      throw new Error(message)
     }
   }
 
